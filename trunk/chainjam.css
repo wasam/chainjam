@@ -150,9 +150,15 @@ div#sideBarRight {
 	background-color:#B0D136;
 }
 
+#GameList {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: 64vh;
+}
+
 div#gameList {
 	display:none;
-	overflow:auto;
+	overflow: auto;
 	height:750px;
 }
 
@@ -284,6 +290,8 @@ MENU
 
 .Menu {
 	background-color: #f57b20;
+	height: 100%;
+	font-size: 4.5vh;
 }
 
 div#MenuMain {
@@ -308,6 +316,24 @@ div#MenuMain {
 }
 
 .MenuMainOptions div div {
+	margin-left: -7%;
+	padding-right: 3%;
+}
+
+.MenuGameListOptions {
+	color: #f8b380;
+	text-align: left;
+	margin-left: 20%;
+	margin-right: 20%;
+	margin-top: 0%;
+	width: 60%;
+}
+
+.MenuGameListOptions div  {
+	padding-left: 7%;
+}
+
+.MenuGameListOptions div div {
 	margin-left: -7%;
 	padding-right: 3%;
 }

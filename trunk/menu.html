@@ -68,7 +68,10 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
 </div>
 <div id="MenuGameList" class="Menu" style="position: fixed; width: 100%; display: none;">
     <div class="menuTitle">Game List</div>
-    <div id="MenuGameListMainMenu">Main Menu</div>
+	<div class="MenuGameListOptions">
+		<div id="MenuGameListMainMenu">Main Menu</div>
+		<div id="MenuGameListFilter">All Games</div>
+	</div>
     <div id="GameList"></div>
     <script type="text/javascript">
 		var _localStorageAvailable = (typeof(Storage)!=="undefined");
@@ -118,6 +121,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
     MenuScreens[mc].selected = 0;
     MenuScreens[mc].entries = new Array();
     MenuScreens[mc].entries[0] = "MenuGameListMainMenu";
+	MenuScreens[mc].entries[1] = "MenuGameListFilter";
     mc++;
     MenuScreens[mc] = new Object();
     MenuScreens[mc].id = "MenuCredits";
