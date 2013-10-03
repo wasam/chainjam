@@ -186,20 +186,59 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 23. September 2013
 
 	// load the initial game menu or just load a single game
 	var hash = window.location.hash.substring(1);
-	if (hash == "") ShowMenu();
+	if (hash == "") // no direct game access
+	{
+		ShowMenu();
+	}
 	else 
 	{
-		var currentItem = _games;
-		while (currentItem != null)
-		{
-			if (currentItem.path == hash)
+		var params = hash.split("&");
+		
+		
+		if (params.length == 1) { // one parameter -> find a game with given path in the game directory
+			
+			var currentItem = _games;
+			while (currentItem != null)
 			{
-				_currentGame = currentItem;
-				LoadGame(currentItem, false);
-				break;
+				if (currentItem.path == hash)
+				{
+					_currentGame = currentItem;
+					_currentGame.next = null;
+					_games = _currentGame;
+					LoadGame(currentItem, false);
+					break;
+				}
+				currentItem = currentItem.next;
 			}
-			currentItem = currentItem.next;
 		}
+		else if (params.length > 1) { // multiple parameters -> debug mode
+			var game = new Object();
+			game.path = "";
+			game.chosen = true;
+			game.name = "DEBUG MODE";
+			game.type = "";
+			game.credits = "DEBUG MODE";
+			game.instructions = "DEBUG MODE";
+			game.next = null;
+			
+			for (var i = 0; i < params.length; i++) {
+				var split = params[i].split("=");
+				switch (split[0])
+				{
+					case "path":
+						game.path = split[1];
+						break;
+					case "type":
+						game.type = split[1];
+						break;
+				}
+			}
+			
+			_games = game;
+			LoadGame(_games, false);
+			
+		}
+		
 	}
 
 	$(window).resize(function() {

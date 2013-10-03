@@ -40,7 +40,6 @@ function b64_to_utf8(str) {
 // sets a game in the list active / inactive
 function SetGameActive(game, state)
 {
-    
     game.chosen = state;
     if (_localStorageAvailable) {
 	    localStorage.setItem(utf8_to_b64(game.path), state);
