@@ -71,8 +71,8 @@ function makeLinkedGamesList()
 	}
 	
 	_games = linkedGamesList;
-	
 }
+
 // returns a non-linked copy of the linked list (so one can do destructive operations on it)
 function gamesCopy()
 {
