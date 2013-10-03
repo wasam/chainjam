@@ -15,6 +15,7 @@ var _contentWidth = 450;
 var _contentRatio = 1.77777777778;
 var _gameRunning = false;
 var _gameStartReceived = false;
+var _singleGameMode = false;
 var _currentGame;
 var _selectedGames;
 var _selectedGamesAmount;
@@ -412,6 +413,7 @@ function LoadGame(game, useTimers)
 		case "unity":
 			LoadUnityGame(_gamesDirectory + "/" + game.path);
 		break;
+		case "swf":
 		case "flash":
 			LoadFlashGame(_gamesDirectory + "/" + game.path);
 		break;
@@ -522,13 +524,18 @@ function LoadFlashGame(path)
 	$("#flashPlayer").show().empty();
 	$("#javaPlayer").hide().empty();
 	
-	$("#flashPlayer").append('<embed id="flashPlayerEmbed" src="' + path + '" height=' + _contentHeight + ' width=' + _contentWidth + ' wmode="opaque" type="application/x-shockwave-flash"></embed>').focus();
+	$("#flashPlayer")
+		.append('<embed id="flashPlayerEmbed" src="' + path
+				+ '" height=' + _contentHeight
+				+ ' width=' + _contentWidth
+				+ ' wmode="opaque" type="application/x-shockwave-flash"></embed>');
 	setTimeout(LoadFlashGameSetFlashFocus, 100);
 }
 
 // helper function to set focus on the flash element
 function LoadFlashGameSetFlashFocus()
 {
+	//$("#flashPlayerEmbed").attr("wmode", "opaque");
 	var flash = document.getElementById("flashPlayerEmbed");
     flash.tabIndex = 1234;  // This was needed on Chrome 23
     flash.focus();
