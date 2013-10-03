@@ -3,7 +3,7 @@
 //#####################
 //File: index.html
 //Created by: Sam Walz <mail[at]samwalz.com> 05. September 2013
-//Last changed by: Sam Walz <mail[at]samwalz.com> 26. September 2013
+//Last changed by: Sam Walz <mail[at]samwalz.com> 03. October 2013
 
 
 // global variables
@@ -612,13 +612,7 @@ function LoadUnityGame(path)
 	});
 }
 
-// unity menu tells javascript framework that it has loaded
-function MenuIsLoaded()
-{
-	var chosenGames = 0;
-	for (var i = 0; i < _g.length; i++) if (_g[i].chosen) chosenGames++;
-	_unity.getUnity().SendMessage("Menu", "SetNumberOfGames", chosenGames);
-}
+
 
 // counts the amount of seconds left for the current game down
 function CountDownGameTime() {
