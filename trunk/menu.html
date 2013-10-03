@@ -70,7 +70,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
     <div class="menuTitle">Game List</div>
 	<div class="MenuGameListOptions">
 		<div id="MenuGameListMainMenu">Main Menu</div>
-		<div id="MenuGameListFilter">All Games</div>
+		<div id="MenuGameListFilter">Selected Games: <div style="display: inline-block" id="MenuGameListFilterSelected">all</div></div>
 	</div>
     <div id="GameList"></div>
     <script type="text/javascript">
@@ -98,6 +98,42 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
 			{
 				//localStorage.removeItem(_g[id].path);
 				localStorage.setItem(utf8_to_b64(_g[id].path), _g[id].chosen);
+			}
+		}
+		function displayGame (id, visible)
+		{
+			$("#game"+id).css("display", (visible ? "block" : "none"));
+		}
+		
+		
+		// filters the game list
+		function FilterList()
+		{
+			for (var i = 0; i < _g.length; i++)
+			{
+				var filter = _gameListFilters[_gameListCurrentFilter];
+				switch(filter)
+				{
+					case "all":
+						if (!_g[i].chosen) {
+							toggleGame(i);
+							displayGame(i, true);
+						}
+						break;
+					default:
+						if (_g[i].type == filter) {
+							if (!_g[i].chosen) {
+								toggleGame(i);
+							}
+							displayGame(i, true);
+						} else {
+							if (_g[i].chosen) {
+								toggleGame(i);
+							}
+							displayGame(i, false);
+						}
+						break;
+				}
 			}
 		}
         
@@ -130,6 +166,10 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
     //MenuScreens[mc].entries[0] = "MenuGameListMainMenu";
     var _currentScreen = MenuScreens[0];
     var _chosenGamesAmount = 0;
+	
+	// variables for filtering the game list
+	var _gameListFilters = ["all", "unity", "flash", "html5", "java"];
+	var _gameListCurrentFilter = 0;
     
     function Show(screenName)
     {
@@ -221,6 +261,15 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
                 }
                 break;
             case "MenuGameList":
+				switch (_currentScreen.selected) {
+					case 1: // filter selection
+						if (_gameListCurrentFilter > 0) {
+							_gameListCurrentFilter--;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();
+						}
+						break;
+				}
                 break;
         }
     }
@@ -241,6 +290,15 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
                 }
                 break;
             case "MenuGameList":
+				switch (_currentScreen.selected) {
+					case 1: // filter selection
+						if (_gameListCurrentFilter < _gameListFilters.length - 1) {
+							_gameListCurrentFilter++;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();
+						}
+						break;
+				}
                 break;
         }
     }
@@ -305,6 +363,8 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
         UpdateCSS();
     }
     
+	
+	
     // adjust the CSS style according to the new selection
     function UpdateCSS()
     {
