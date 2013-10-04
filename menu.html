@@ -26,13 +26,14 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
     
 </div>
 <script type="text/javascript">
+
     function MenuCredits()
     {
         $("#MenuCredits").css("top", 0);
         $("#MenuCredits").empty();
         $("#MenuCredits").append('<div id="MenuCreditsEmptyBlock" style="height: 101vh;"></div>');
         $("#MenuCredits").append('<div class="menuTitle">Credits</div>');
-        AddCredit("Idea", "Jonathan van Hove");
+        AddCredit("Idea", "Jonatan van Hove");
         AddCredit("Chain Game Machine", "Samuel Walz");
         for (var i = 0; i < _g.length; i++)
         {
@@ -56,23 +57,27 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
      <div class="logo"></div>
     
     <div class="MenuMainOptions">
-        <div id="MenuMainStart">PLAY</div>
+        <div id="MenuMainStart"><a href="#">PLAY</a></div>
 		<div id="MenuMainGameNumber">
-            <div style="display: inline-block">NUMBER OF GAMES:</div>
-            <div style="display: inline-block" id="MenuMainGameNumberNumber">_</div>
+            <div style="display: inline-block"><a href="#">CHAIN LENGTH:</a></div>
+            <a href="#" id="filterleft" onclick="PressedLeft()">◂<div style="display: inline-block" id="MenuMainGameNumberNumber">_</div><a href="#" id="filterright" onclick="PressedRight()">▸</a>
+			<div style="display: inline-block; font-size:40%;" id="totalCount"><a href="#">/100</a></div>
+            
         </div>
-        <div id="MenuMainGameList">GAME LIST</div>
-		<div id="MenuMainCredits">CREDITS</div>
+        <div id="MenuMainGameList"><a href="#">GAME LIST</a></div>
+		<div id="MenuMainCredits"><a href="#">CREDITS</a></div>
     </div>
     <div class="MenuInstructions">up, down, left, right to change selection <br/> A to confirm</div>
 </div>
 <div id="MenuGameList" class="Menu" style="position: fixed; width: 100%; display: none;">
-    <div class="menuTitle">Game List</div>
+    <div class="menuTitle">&nbsp;</div>
 	<div class="MenuGameListOptions">
-		<div id="MenuGameListMainMenu">Main Menu</div>
-		<div id="MenuGameListFilter">Selected Games: <div style="display: inline-block" id="MenuGameListFilterSelected">all</div></div>
+		<div id="MenuGameListMainMenu"><a href="#">Back</a></div>
+		<div id="MenuGameListFilter"><a href="#">Filter: </a><a href="#" id="filterleft" onclick="PressedLeft()">◂</a><div style="display: inline-block" id="MenuGameListFilterSelected">all</div><a href="#" id="filterright" onclick="PressedRight()">▸</a></div>
 	</div>
     <div id="GameList"></div>
+	<div class="MenuGameListInstructions">use Mouse to select/deselect games</div>
+
     <script type="text/javascript">
 		var _localStorageAvailable = (typeof(Storage)!=="undefined");
         var _g = parent._g;
@@ -88,7 +93,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
 			}
 			var item = $("#GameList")
                 .append('<div id="game' + i + '" class="' + (_g[i].chosen ? 'gameChosen' : 'gameUnchosen')
-                        + '" onclick="toggleGame(' + i + ');">' + _g[i].name + '</div>');
+                        + '" onclick="toggleGame(' + i + ');"><a href="#">' + _g[i].name + '</a></div>');
 		}
 		function toggleGame (id)
 		{
@@ -258,6 +263,11 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
                             $("#MenuMainGameNumberNumber").empty().append(parent._selectedGamesAmount);
                         }
                         break;
+					default:
+						_currentScreen.selected = 1;
+						PressedLeft();
+						UpdateCSS();
+						break;
                 }
                 break;
             case "MenuGameList":
@@ -268,6 +278,17 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
 							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
 							FilterList();
 						}
+						else
+						{
+							_gameListCurrentFilter = _gameListFilters.length - 1;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();
+						}
+						break;
+					default:
+						_currentScreen.selected = 1;
+						PressedLeft();
+						UpdateCSS();
 						break;
 				}
                 break;
@@ -286,7 +307,12 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
                             parent._selectedGamesAmount++;
                             $("#MenuMainGameNumberNumber").empty().append(parent._selectedGamesAmount);
                         }
-                        break;
+                    	break;
+					default:
+						_currentScreen.selected = 1;
+						PressedRight();
+						UpdateCSS();
+						break;
                 }
                 break;
             case "MenuGameList":
@@ -297,6 +323,17 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
 							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
 							FilterList();
 						}
+						else
+						{
+							_gameListCurrentFilter =0;
+							$("#MenuGameListFilterSelected").empty().append(_gameListFilters[_gameListCurrentFilter]);
+							FilterList();						
+						}
+						break;
+					default:
+						_currentScreen.selected = 1;
+						PressedRight();
+						UpdateCSS();
 						break;
 				}
                 break;
@@ -311,8 +348,7 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
             case "MenuMain":
                 switch(_currentScreen.selected) {
                     case 0: // start game
-                        parent.CompileGamesList(parent._selectedGamesAmount);
-                        parent.StartGames();
+						Play();
                         break;
                     case 2: // show game list
                         Show("MenuGameList");
@@ -349,6 +385,12 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
         Show("MenuMain");
     }
     
+	function Play() {
+		parent.CompileGamesList(parent._selectedGamesAmount);
+		parent.StartGames();
+
+	}
+	
     // go one entry up in the menu
     function MenuUp()
     {
@@ -388,8 +430,22 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
             }
         }
         parent._selectedGamesAmount = count;
-        _chosenGamesAmount = count;
-        $("#MenuMainGameNumberNumber").empty().append(count);
+        //_chosenGamesAmount = count;
+        //$("#MenuMainGameNumberNumber").empty().append(count);
+		if(count >= 5)
+		{
+			parent._selectedGamesAmount = 5;
+		}
+		else
+		{
+			parent._selectedGamesAmount = count;
+		}
+		_chosenGamesAmount = count;
+		$("#MenuMainGameNumberNumber").empty().append(parent._selectedGamesAmount);
+
+		
+		$("#totalCount").empty().append("/ " + count);
+
     }
     
     $("#MenuMainGameList").click(function(){
@@ -397,6 +453,12 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 29. September 2013
 	});
     $("#MenuGameListMainMenu").click(function(){
         Show("MenuMain");
+	});
+	$("#MenuMainCredits").click(function(){
+        Show("MenuCredits");
+	});
+    $("#MenuMainStart").click(function(){
+		Play();
 	});
     
     UpdateCSS();

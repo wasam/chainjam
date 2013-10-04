@@ -3,7 +3,7 @@ body {
 	font-family: Helvetica, Verdana, Arial, sans-serif;
 	color: white;
 	margin:0px;
-	overflow: none;
+  overflow: hidden;
 	font-size: 2vh;
 }
 
@@ -317,7 +317,7 @@ div#MenuMain {
 
 .MenuMainOptions div div {
 	margin-left: -7%;
-	padding-right: 3%;
+	/*padding-right: 3%;*/
 }
 
 .MenuGameListOptions {
@@ -335,7 +335,7 @@ div#MenuMain {
 
 .MenuGameListOptions div div {
 	margin-left: -7%;
-	padding-right: 3%;
+	/*padding-right: 3%;*/
 }
 
 div.menuEntrySelected {
@@ -351,7 +351,7 @@ div.menuEntrySelected {
 	padding-right: 4%;
 	}
 
-div.MenuInstructions {
+div.MenuInstructions, div.MenuGameListInstructions {
 	width: 100%;
 	line-height: 5vh;
 	font-size: 3.5vh;
@@ -545,4 +545,34 @@ div#gameInstructionsWrapper {
   60% { transform: scale(0.6); opacity: 1 }
   80% { transform: scale(0.95) }
   100% { transform: scale(0.85) }
+}
+
+#MenuMain a:link, 
+#MenuMain a:hover, 
+#MenuMain a:visited ,
+#MenuGameList a:link, 
+#MenuGameList a:hover, 
+#MenuGameList a:visited 
+{
+	text-decoration: none;
+	color:white;
+}
+
+#GameList {
+	margin-left: 10%;
+	padding-top: 1%;
+	padding-bottom: 3%;
+	margin-right: 10%;
+	background: #D3691D;
+	padding-left: 3%;
+	margin-top: 1%;
+}
+
+#MenuGameListFilterSelected {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+div.MenuGameListInstructions  {
+	margin-bottom:0;
 }
