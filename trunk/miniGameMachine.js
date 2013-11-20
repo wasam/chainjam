@@ -429,6 +429,7 @@ function LoadGame(game, useTimers)
 	if (useTimers)
 	{
 		// timeout for game to respond
+		clearTimeout(_timeToRespondTimer);
 		_timeToRespondTimer = window.setTimeout("GameDoesNotRespond()", _timeToRespond * 1000);
 	}
 	
