@@ -61,9 +61,20 @@ Last changed by: Sam Walz <mail[at]samwalz.com> 12. September 2013
 				// TESTING HTML OUTPUT
 				console.log( "ready1" );
 			});
+			
+			var allowAnotherRound  = false;
+			setInterval(function(){allowAnotherRound = true;},_scoreboardControllerLockTimeSeconds * 1000);
+			
+			function myFunction()
+			{
+				if(allowAnotherRound)
+				{
+					parent.AnotherRound();
+				}
+			}
       	</script>
 
-<body onkeypress="parent.AnotherRound();">
+<body onkeypress="myFunction();">
     <div id="gameScoreList">
 	    <div class="logo"></div>
 	    <div class="playerCols">
